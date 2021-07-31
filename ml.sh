@@ -1,13 +1,6 @@
 #!/bin/bash
 
-#curl https://mx.mileroticos.com/escorts/aguascalientes/aguascalientes/ | grep -io '<a href=['"'"'"][^"'"'"']*['"'"'"]' | sed -e 's/^<a href=["'"'"']//i' -e 's/["'"'"']$//i' | grep -E '/escorts/*.*[0-9]{8}'
-#grep -io '<a href=['"'"'"][^"'"'"']*['"'"'"]' html01 | sed -e 's/^<a href=["'"'"']//i' -e 's/["'"'"']$//i' | grep -E '/escorts/*.*[0-9]{8}'
-#IDS=( $(grep -io '<a href=['"'"'"][^"'"'"']*['"'"'"]' html01 | sed -e 's/^<a href=["'"'"']//i' -e 's/["'"'"']$//i' | grep -Eo '[0-9]{8}' ))
-
 unset parameterA parameterB
-
-#IDS=( $(grep -io '<a href=['"'"'"][^"'"'"']*['"'"'"]' html01 | sed -e 's/^<a href=["'"'"']//i' -e 's/["'"'"']$//i' | grep -E '[0-9]{8}' | grep -v -f pattern))
-#echo ${IDS[*]}
 
 helpFunction()
 {
@@ -38,10 +31,6 @@ do
 		echo "$h$p"
 		echo "$(date +"%m-%d-%Y %H:%M:%S") ALL calling: $h$p" >> LogScript01.log
 		curl -s -iL --max-redirs -1 "$h$p" > inicial_all
-		#sleep 360
-		# echo "https://mx.mileroticos.com/escorts/aguascalientes/aguascalientes/?p=$p"
-		# echo "$(date +"%m-%d-%Y %H:%M:%S") ALL calling: https://mx.mileroticos.com/escorts/aguascalientes/aguascalientes/?p=$p" >> LogScript01.log
-		# curl -s -iL --max-redirs -1 "https://mx.mileroticos.com/escorts/aguascalientes/aguascalientes/?p=$p" > inicial_all
 	else 
 		echo "https://mx.mileroticos.com/listajax/escorts/aguascalientes/?p=$p"
 		echo "$(date +"%m-%d-%Y %H:%M:%S") ALL calling: https://mx.mileroticos.com/listajax/escorts/aguascalientes/?p=$p" >> LogScript01.log
@@ -51,7 +40,6 @@ do
 	BASEURL='https://mx.mileroticos.com'
 	
 	IDS2=()
-	#IDS2=( $( grep -io '<a href=['"'"'"][^"'"'"']*['"'"'"]' inicial_all | sed -e 's/^<a href=["'"'"']//i' -e 's/["'"'"']$//i' | grep -E '\/[0-1][0-9]{7}|\/[8-9][0-9]{6}' | grep -v -f pattern))
 	IDS2=( $( grep -io '<a href=['"'"'"][^"'"'"']*['"'"'"]' inicial_all | sed -e 's/^<a href=["'"'"']//i' -e 's/["'"'"']$//i' | grep -E '\/[0-9]+\/' | grep -v -f pattern))
 	b=1
 	for i in "${IDS2[@]}"; do 
@@ -64,8 +52,6 @@ do
 	#echo ${IDS[*]}
 	#IDS[0]=Hola
 
-	
-
 	for i in "${IDS2[@]}"; do 
 		TEL=""
 		WHATS=""
@@ -76,13 +62,11 @@ do
 		
 		curl -s $BASEURL$i > curl_temp
 
-		#echo $i | grep -Eo '\/[0-2][0-9]{7}|\/[8-9][0-9]{6}' | sed 's/^\///;s/\// /g' >> pattern #Agrega ID A pattern
 		echo $i | grep -Eo '\/[0-9]+\/' | sed 's/^\///;s/\///g' >> pattern #Agrega ID A pattern
 		
 		echo $i 
 
 		ID_M=$(echo $i | grep -Eo '\/[0-9]+\/' | sed 's/^\///;s/\///g')
-		#ID_M=$(echo $i | grep -Eo '\/[0-2][0-9]{7}|\/[8-9][0-9]{6}' | sed 's/^\///;s/\// /g')
 		TEL=$(grep -m 1 -oP "tel:\K\d+" curl_temp)
 		WHATS=$(grep -m 1 -oP "phone=52\K\d+" curl_temp)
 		DESC=$(grep description-ad curl_temp | sed -e 's/<[^>]*>//g')
