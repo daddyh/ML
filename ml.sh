@@ -168,5 +168,4 @@ else
 workFunction
 fi
 
-# Begin script in case all parameters are correct
 
